@@ -1,4 +1,4 @@
-import { Component, signal, computed } from '@angular/core';
+import { Component, signal, computed, Input } from '@angular/core';
 import { DUMMY_USERS } from '../dummy-users';
 
 
@@ -12,6 +12,8 @@ const randomActiveUser = Math.floor(Math.random() * DUMMY_USERS.length);
   styleUrl: './user.css',
 })
 export class User {
+  @Input() avatar!: string;
+  @Input() name!: string;
   // LE parti commentate sono il vecchio modo di angular di gestire propietà e metodi .
   //  selectedUser = DUMMY_USERS[randomActiveUser];
 
@@ -28,12 +30,15 @@ export class User {
 
   // metodo moderno di angular per gestire propietà e metodi.
   // Signal è un costrutto che permette di creare una propietà reattiva.
-  selectedUser = signal(DUMMY_USERS[randomActiveUser])
+  // selectedUser = signal(DUMMY_USERS[randomActiveUser])
 
-  imagePath = computed((): string => 'users/' + this.selectedUser().avatar);
+  // imagePath = computed((): string => 'users/' + this.selectedUser().avatar);
 
-  onSelectUser(): void {
-    const randomActiveUser = Math.floor(Math.random() * DUMMY_USERS.length);
-    this.selectedUser.set(DUMMY_USERS[randomActiveUser]);
-  }
+  // onSelectUser(): void {
+  //   const randomActiveUser = Math.floor(Math.random() * DUMMY_USERS.length);
+  //   this.selectedUser.set(DUMMY_USERS[randomActiveUser]);
+  // }
+
+  imagePath = computed((): string => 'users/' + this.avatar);
+  onSelectUser(): void { }
 }
