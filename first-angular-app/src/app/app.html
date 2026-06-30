@@ -1,18 +1,15 @@
 <app-header></app-header>
 <main>
   <ul id="users">
+    @for (user of users; track user.id) {
     <li>
-      <app-user (select)="onSelectUser($event)" [user]="users[0]"></app-user>
+      <app-user (select)="onSelectUser($event)" [user]="user"></app-user>
     </li>
-    <li>
-      <app-user (select)="onSelectUser($event)" [user]="users[1]"></app-user>
-    </li>
-    <li>
-      <app-user (select)="onSelectUser($event)" [user]="users[2]"></app-user>
-    </li>
-    <li>
-      <app-user (select)="onSelectUser($event)" [user]="users[3]"></app-user>
-    </li>
+    }
   </ul>
-  <app-task [id]="activeUserId()"></app-task>
+  @if(activeUserId()){
+  <app-tasks [id]="activeUserId()"></app-tasks>
+  }@else {
+  <p id="falbackText">Nessun utente selezionato</p>
+  }
 </main>

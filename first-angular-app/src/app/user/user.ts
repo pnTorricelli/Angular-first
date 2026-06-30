@@ -1,5 +1,7 @@
 import { Component, computed, input, Input, signal, Output, EventEmitter, output } from '@angular/core';
 import { DUMMY_USERS } from '../dummy-users';
+import type { UserInterface } from './user.model';
+
 
 /*
   Helper usato negli esempi sotto per selezionare casualmente
@@ -36,7 +38,7 @@ export class User {
     "questa proprietà verrà valorizzata da Angular, anche se qui
     non la sto inizializzando subito".
   */
-  @Input({ required: true }) user!: { id: string, avatar: string, name: string };
+  @Input({ required: true }) user!: UserInterface;
   @Output() select = new EventEmitter<string>();
 
   /*
