@@ -40,6 +40,7 @@ export class User {
   */
   @Input({ required: true }) user!: UserInterface;
   @Output() select = new EventEmitter<string>();
+  selected = input<boolean>(false);
 
   /*
     Proprietà calcolata tramite getter classico.
