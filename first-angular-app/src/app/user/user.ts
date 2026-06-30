@@ -1,4 +1,4 @@
-import { Component, computed, input, Input, signal, Output, EventEmitter } from '@angular/core';
+import { Component, computed, input, Input, signal, Output, EventEmitter, output } from '@angular/core';
 import { DUMMY_USERS } from '../dummy-users';
 
 /*
@@ -36,10 +36,9 @@ export class User {
     "questa proprietà verrà valorizzata da Angular, anche se qui
     non la sto inizializzando subito".
   */
-  @Input({ required: true }) id!: string;
-  @Input({ required: true }) avatar!: string;
-  @Input({ required: true }) name!: string;
-  @Output() select = new EventEmitter<void>();
+  @Input({ required: true }) user!: { id: string, avatar: string, name: string };
+  @Output() select = new EventEmitter<string>();
+
   /*
     Proprietà calcolata tramite getter classico.
 
@@ -51,12 +50,12 @@ export class User {
       <img [src]="imagePath" [alt]="name" />
   */
   get imagePath(): string {
-    return 'users/' + this.avatar;
+    return 'users/' + this.user.avatar;
   }
 
 
   onSelectUser(): void {
-    this.select.emit();
+    this.select.emit(this.user.id);
   }
   /*
     ============================================================
@@ -76,6 +75,11 @@ export class User {
   // Input moderno obbligatorio.
   // Se uso input.required<T>(), non posso dare un valore di default.
   name = input.required<string>();
+
+
+  // Output moderno .
+  select = output<string>();
+
 
   // Computed derivata dall'input signal avatar.
   // Con input(), avatar non si legge più come this.avatar,
