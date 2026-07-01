@@ -1,7 +1,8 @@
-import { Component, input, output } from '@angular/core';
-import type { TaskInterface } from './task.model';
+import { Component, input, inject } from '@angular/core';
+import { TasksService } from '../tasks.service';
 import { Card } from '../../shared/card/card';
 import { DatePipe } from '@angular/common';
+import type { TaskInterface } from './task.model';
 
 @Component({
   selector: 'app-task',
@@ -11,9 +12,9 @@ import { DatePipe } from '@angular/common';
 })
 export class Task {
   task = input.required<TaskInterface>();
-  completed = output<string>();
+  private taskService = inject(TasksService);
 
   onCompleteTask(): void {
-    this.completed.emit(this.task().id);
+    this.taskService.removeTask(this.task().id);
   }
 }
