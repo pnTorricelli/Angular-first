@@ -3,6 +3,7 @@ import { DUMMY_USERS } from "../dummy-users";
 import { Task } from "./task/task";
 import { NewTask } from "./new-task/new-task";
 import type { TaskInterface } from "./task/task.model";
+import type { NewTaskInterface } from "./new-task/new-task.model";
 @Component({
   selector: 'app-tasks',
   imports: [Task, NewTask],
@@ -37,14 +38,23 @@ export class Tasks {
     },
   ]);
   nameUser = computed(() => DUMMY_USERS.find(user => user.id === this.id())?.name);
-
   tasksUser = computed(() => this.tasks().filter(task => task.userId === this.id()));
   isAddingTask = signal<boolean>(false);
+
+  onSubmitNewTask(newTask: NewTaskInterface): void {
+    this.isAddingTask.set(false);
+    const id = "t" + (this.tasks().length + 1).toString();
+    this.tasks.update(tasks => [{ id, userId: this.id()!, title: newTask.title, summary: newTask.summary, dueDate: newTask.date }, ...tasks])
+  }
+
   onStartAddTask(): void {
     console.log("Add Task", this.id());
     this.isAddingTask.set(true);
   }
   onCompletedTask(id: string): void {
     this.tasks.update(tasks => tasks.filter(task => task.id !== id));
+  }
+  onClose(): void {
+    this.isAddingTask.set(false);
   }
 }

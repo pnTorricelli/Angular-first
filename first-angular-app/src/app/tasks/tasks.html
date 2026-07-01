@@ -1,4 +1,8 @@
 <section id="tasks">
+
+  @if(isAddingTask()){
+  <app-new-task (addTask)="onSubmitNewTask($event)" [userId]="id()" (close)="onClose()"></app-new-task>
+  }
   <header>
     <p>{{ nameUser() }}'s Tasks</p>
     <menu>
@@ -6,9 +10,7 @@
     </menu>
   </header>
 
-  @if(isAddingTask()){
-  <app-new-task [userId]="id()"></app-new-task>
-  }
+
 
   <ul>
     @for ( task of tasksUser(); track task.id){
